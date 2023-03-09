@@ -31,7 +31,4 @@ app.get("/", (req, res) => {
 });
 app.use(autRoutes);
 // Va servir les routes dédiées aux sauces
-app.use("/api/sauces", saucesRoutes);
-
-// Va servir les routes dédiées aux utilisateurs
-app.use("/api/auth", autRoutes);
+app.use(saucesRoutes);

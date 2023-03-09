@@ -15,3 +15,5 @@ const saucesSchema = new mongoose.Schema({
 });
 
 const Sauce = mongoose.model("sauce", saucesSchema);
+
+module.exports = Sauce;

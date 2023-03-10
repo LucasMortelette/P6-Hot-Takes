@@ -1,18 +1,23 @@
 const { Router } = require("express");
 const saucesController = require("../controllers/saucesController");
+const { token_verif } = require("../middlewares/authentification");
 
 const router = Router();
 
 // Renvoie le tableau de toutes les sauces dans la DB
-router.get("/api/sauces", saucesController.getSauces);
+router.get("/api/sauces", token_verif, saucesController.getSauces);
 
 //Renvoie la sauce avec l'ID fourni
 router.get("/api/sauces/:id", () => {});
 
 //Capture en enregistre l'image, analyse la sauce et l'enregistre dans la DB, en definissant correctement son image URL. Remet les sauces aimées et celles détestées à 0, et les sauces userliked et celles userdilsiked aux tableaux vides
-router.post("/api/sauces/", saucesController.createSauce);
+router.post(
+  "/api/sauces/",
+  saucesController.upload.single("image"),
+  saucesController.createSauce
+);
 
-//Met à jour la suace avec id fourni, nouvelle image.
+//Met à jour la sauce avec id fourni, nouvelle image.
 router.put("/api/sauces/:id", () => {});
 
 //Supprime la sauce avec l'ID fourni

@@ -1,11 +1,17 @@
 const Sauce = require("../models/sauces");
-// const jwt = require("jsonwwebtoken");
-const { token_verif } = require("../controllers/authController");
-require("dotenv").config();
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: "images/",
+  filename: makeFileName,
+});
+const upload = multer({ storage: storage });
+
+function makeFileName(req, file, cb) {
+  cb(null, file.originalname);
+}
 
 const getSauces = async (req, res) => {
   try {
-    // const token = await token_verif();
     Sauce.find({}).then((sauces) => res.send(sauces));
   } catch (err) {
     res.status(400).json(err);
@@ -13,26 +19,35 @@ const getSauces = async (req, res) => {
 };
 
 function createSauce(req, res) {
-  const sauce = new Sauce({
-    userId: "test",
-    name: "test",
-    manufacturer: "test",
-    description: "test",
-    mainPepper: "test",
-    imageUrl: "test",
-    heat: 3,
-    likes: 3,
-    dislikes: 3,
-    usersLiked: ["test"],
-    usersDisliked: ["test"],
-  });
-  sauce
-    .save()
-    .then((sauces) => res.send({ message: sauces }))
-    .catch(console.log(err));
+  const userId = req.body.userId;
+  const name = req.body.name;
+  const manufacturer = req.body.manufacturer;
+  const description = req.body.description;
+  const mainPepper = req.body.mainPepper;
+  const imageUrl = req.file.destination + req.file.filename;
+  const heat = req.body.heat;
+  console.log(JSON.stringify(req.body.sauce.name));
+  // const sauce = new Sauce({
+  //   userId: userId,
+  //   name: name,
+  //   manufacturer: manufacturer,
+  //   description: description,
+  //   mainPepper: mainPepper,
+  //   imageUrl: imageUrl,
+  //   heat: heat,
+  //   likes: 0,
+  //   dislikes: 0,
+  //   usersLiked: [],
+  //   usersDisliked: [],
+  // });
+  // sauce
+  //   .save()
+  //   .then((sauces) => res.send({ message: sauces }))
+  //   .catch(console.log(err));
 }
 
 module.exports = {
+  upload,
   getSauces,
   createSauce,
 };

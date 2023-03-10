@@ -3,27 +3,27 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 //verifie la presence du token pour donner accès
-function token_verif(req, res, next) {
-  const header = req.header("Authorization");
-  const token = header.split("")[1];
+// function token_verif(req, res, next) {
+//   const header = req.header("Authorization");
+//   const token = header.split("")[1];
 
-  if (token) {
-    jwt.verify(
-      token,
-      `${process.env.ACCESS_TOKEN_SECRET}`,
-      (err, decodedToken) => {
-        if (err) {
-          console.log(err.message);
-        } else {
-          console.log(decodedToken);
-          next();
-        }
-      }
-    );
-  } else {
-    res.redirect("/login");
-  }
-}
+//   if (token) {
+//     jwt.verify(
+//       token,
+//       `${process.env.ACCESS_TOKEN_SECRET}`,
+//       (err, decodedToken) => {
+//         if (err) {
+//           console.log(err.message);
+//         } else {
+//           console.log(decodedToken);
+//           next();
+//         }
+//       }
+//     );
+//   } else {
+//     res.redirect("/login");
+//   }
+// }
 
 //handle errors
 const handleErrors = (err) => {
@@ -85,7 +85,7 @@ const login_post = async (req, res) => {
 };
 
 module.exports = {
-  token_verif,
+  //token_verif,
   signup_post,
   login_post,
 };

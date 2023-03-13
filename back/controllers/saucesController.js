@@ -19,31 +19,26 @@ const getSauces = async (req, res) => {
 };
 
 function createSauce(req, res) {
-  const userId = req.body.userId;
-  const name = req.body.name;
-  const manufacturer = req.body.manufacturer;
-  const description = req.body.description;
-  const mainPepper = req.body.mainPepper;
-  const imageUrl = req.file.destination + req.file.filename;
-  const heat = req.body.heat;
-  console.log(JSON.stringify(req.body.sauce.name));
-  // const sauce = new Sauce({
-  //   userId: userId,
-  //   name: name,
-  //   manufacturer: manufacturer,
-  //   description: description,
-  //   mainPepper: mainPepper,
-  //   imageUrl: imageUrl,
-  //   heat: heat,
-  //   likes: 0,
-  //   dislikes: 0,
-  //   usersLiked: [],
-  //   usersDisliked: [],
-  // });
-  // sauce
-  //   .save()
-  //   .then((sauces) => res.send({ message: sauces }))
-  //   .catch(console.log(err));
+  const body = JSON.parse(req.body.sauce);
+  const { userId, name, manufacturer, description, mainPepper, heat } = body;
+  const imageUrl = "http://localhost:3000/" + req.file.filename;
+  const sauce = new Sauce({
+    userId: userId,
+    name: name,
+    manufacturer: manufacturer,
+    description: description,
+    mainPepper: mainPepper,
+    imageUrl: imageUrl,
+    heat: heat,
+    likes: 0,
+    dislikes: 0,
+    usersLiked: [],
+    usersDisliked: [],
+  });
+  sauce
+    .save()
+    .then((sauces) => res.send({ message: sauces }))
+    .catch((err) => console.log(err));
 }
 
 module.exports = {

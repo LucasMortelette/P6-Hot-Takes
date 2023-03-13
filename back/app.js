@@ -16,6 +16,7 @@ app.use(cors());
 //database connection
 const dbURI = `mongodb+srv://lucasmortelette62:CaIW23yvleDkTbJX@cluster0.zr1svt8.mongodb.net/auth`;
 
+app.use(express.static("./images"));
 mongoose
   .connect(dbURI, {
     useNewUrlParser: true,

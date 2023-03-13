@@ -13,6 +13,7 @@ router.get("/api/sauces/:id", () => {});
 //Capture en enregistre l'image, analyse la sauce et l'enregistre dans la DB, en definissant correctement son image URL. Remet les sauces aimées et celles détestées à 0, et les sauces userliked et celles userdilsiked aux tableaux vides
 router.post(
   "/api/sauces/",
+  token_verif,
   saucesController.upload.single("image"),
   saucesController.createSauce
 );

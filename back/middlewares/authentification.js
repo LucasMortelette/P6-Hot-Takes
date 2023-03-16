@@ -12,7 +12,7 @@ function token_verif(req, res, next) {
         if (err) {
           console.log(err.message);
         } else {
-          console.log(decodedToken);
+          // console.log(decodedToken);
           next();
         }
       }

@@ -13,6 +13,10 @@ const app = express();
 //middleware
 app.use(express.json({ extended: false }));
 app.use(cors());
+app.use("/api/sauces/:id", function (req, res, next) {
+  // console.log("Request Id:", req.params.id);
+  next();
+});
 //database connection
 const dbURI = `mongodb+srv://lucasmortelette62:CaIW23yvleDkTbJX@cluster0.zr1svt8.mongodb.net/auth`;
 

@@ -1,12 +1,10 @@
 //password CaIW23yvleDkTbJX coupé ?retryWrites=true&w=majority
+
 const express = require("express");
 const mongoose = require("mongoose");
 const autRoutes = require("./routes/authRoutes");
 const saucesRoutes = require("./routes/saucesRoutes");
 const cors = require("cors");
-
-// require("dotenv").config();
-// const password = `${process.env.DB_PASSWORD}`;
 
 const app = express();
 

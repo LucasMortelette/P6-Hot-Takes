@@ -2,29 +2,6 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-//verifie la presence du token pour donner accès
-// function token_verif(req, res, next) {
-//   const header = req.header("Authorization");
-//   const token = header.split("")[1];
-
-//   if (token) {
-//     jwt.verify(
-//       token,
-//       `${process.env.ACCESS_TOKEN_SECRET}`,
-//       (err, decodedToken) => {
-//         if (err) {
-//           console.log(err.message);
-//         } else {
-//           console.log(decodedToken);
-//           next();
-//         }
-//       }
-//     );
-//   } else {
-//     res.redirect("/login");
-//   }
-// }
-
 //handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -49,7 +26,6 @@ const handleErrors = (err) => {
   return errors;
 };
 
-// const maxAge = 3 * 24 * 60 * 60;
 //creation token
 const createToken = (id) => {
   return jwt.sign({ id }, `${process.env.ACCESS_TOKEN_SECRET}`, {
@@ -64,7 +40,6 @@ const signup_post = async (req, res) => {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
     res.status(201).send({ message: "utilisateur enregistré" });
-    // res.status(201).json({ message });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -85,7 +60,6 @@ const login_post = async (req, res) => {
 };
 
 module.exports = {
-  //token_verif,
   signup_post,
   login_post,
 };

@@ -124,6 +124,75 @@ function updateSauce(req, res) {
   }
 }
 
+const likeSauce = async (req, res) => {
+  const id = req.params.id;
+  let like = req.body.like;
+  const userId = "64089e4c5c521d34a92ef28d";
+  // const sauce = await Sauce.findOne({ _id: id });
+
+  if (like === 1) {
+    Sauce.updateOne(
+      { _id: id },
+      {
+        $push: { usersLiked: userId },
+        $inc: { likes: 1 },
+      }
+    )
+      .then(() =>
+        res.status(200).json({
+          message: "j'aime ajouté",
+        })
+      )
+      .catch((err) => res.status(400).json({ err }));
+  } else if (like === -1) {
+    Sauce.updateOne(
+      { _id: id },
+      {
+        $push: { usersDisliked: userId },
+        $inc: { dislikes: 1 },
+      }
+    )
+      .then(() =>
+        res.status(200).json({
+          message: "je n'ame pas ajouté",
+        })
+      )
+      .catch((err) => res.status(400).json({ err }));
+  } else {
+    Sauce.findOne({ _id: id }).then((sauce) => {
+      if (sauce.usersLiked.includes(userId)) {
+        Sauce.updateOne(
+          { _id: id },
+          {
+            $pull: { usersLiked: userId },
+            $inc: { likes: -1 },
+          }
+        )
+          .then((sauce) => {
+            res.status(200).json({ message: "J'aime retiré" });
+          })
+          .catch((err) => {
+            res.status(400).json({ err });
+          });
+      } else if (sauce.usersDisliked.includes(userId)) {
+        Sauce.updateOne(
+          { _id: id },
+          {
+            $pull: { usersDisliked: userId },
+            $inc: { dislikes: -1 },
+          }
+        )
+          .then((sauce) => {
+            res.status(200).json({ message: "Je n'aime pas retiré" });
+          })
+          .catch((err) => {
+            res.status(400).json({ err });
+          });
+      }
+    });
+  }
+};
+
 module.exports = {
   upload,
   getSauces,
@@ -131,4 +200,21 @@ module.exports = {
   getSauces_id,
   deleteSauce,
   updateSauce,
+  likeSauce,
 };
+
+// else if (like === 0) {
+//   Sauce.updateOne(
+//     { _id: id },
+//     {
+//       $pull: { usersLiked: { $in: [`${userId}`] } },
+//       $inc: { likes: -1 },
+//     }
+//   )
+//     .then(() =>
+//       res.status(200).json({
+//         message: "j'aime retiré",
+//       })
+//     )
+//     .catch((err) => res.status(400).json({ err }));
+// }

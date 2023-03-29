@@ -33,6 +33,7 @@ const createToken = (id) => {
   });
 };
 
+//signup
 const signup_post = async (req, res) => {
   const { email, password } = req.body;
 
@@ -46,6 +47,7 @@ const signup_post = async (req, res) => {
   }
 };
 
+//login
 const login_post = async (req, res) => {
   const { email, password } = req.body;
 

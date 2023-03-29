@@ -7,10 +7,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+//nom de fichier pour suavegarde image
 function makeFileName(req, file, cb) {
-  cb(null, file.originalname);
+  cb(null, Date.now() + "_" + file.originalname);
 }
 
+//afficher toutes les sauces dans la base de données
 const getSauces = async (req, res) => {
   try {
     Sauce.find({}).then((sauces) => res.send(sauces));
@@ -19,6 +21,7 @@ const getSauces = async (req, res) => {
   }
 };
 
+//creer nouvelle sauce
 function createSauce(req, res) {
   const body = JSON.parse(req.body.sauce);
   const { userId, name, manufacturer, description, mainPepper, heat } = body;
@@ -42,6 +45,7 @@ function createSauce(req, res) {
     .catch((err) => console.log(err));
 }
 
+//afficher une sauce avec id correspondant
 function getSauces_id(req, res) {
   try {
     const id = req.params.id;
@@ -53,6 +57,7 @@ function getSauces_id(req, res) {
   }
 }
 
+//supprimer sauce
 const deleteSauce = async (req, res) => {
   const id = req.params.id;
   await Sauce.findOne({ _id: id }).then((sauce) => {
@@ -68,6 +73,7 @@ const deleteSauce = async (req, res) => {
   });
 };
 
+//modifier sauce
 function updateSauce(req, res) {
   const hasNewImage = req.file != null;
   const id = req.params.id;
@@ -128,7 +134,6 @@ const likeSauce = async (req, res) => {
   const id = req.params.id;
   let like = req.body.like;
   const userId = "64089e4c5c521d34a92ef28d";
-  // const sauce = await Sauce.findOne({ _id: id });
 
   if (like === 1) {
     Sauce.updateOne(
@@ -202,19 +207,3 @@ module.exports = {
   updateSauce,
   likeSauce,
 };
-
-// else if (like === 0) {
-//   Sauce.updateOne(
-//     { _id: id },
-//     {
-//       $pull: { usersLiked: { $in: [`${userId}`] } },
-//       $inc: { likes: -1 },
-//     }
-//   )
-//     .then(() =>
-//       res.status(200).json({
-//         message: "j'aime retiré",
-//       })
-//     )
-//     .catch((err) => res.status(400).json({ err }));
-// }

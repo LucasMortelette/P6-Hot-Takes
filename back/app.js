@@ -1,5 +1,3 @@
-//password CaIW23yvleDkTbJX coupé ?retryWrites=true&w=majority
-
 const express = require("express");
 const mongoose = require("mongoose");
 const autRoutes = require("./routes/authRoutes");
